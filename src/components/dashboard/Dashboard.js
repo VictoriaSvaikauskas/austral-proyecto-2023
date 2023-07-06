@@ -36,10 +36,10 @@ const BOOKS = [
 
 const Dashboard = () => {
   const [books, setBooks] = useState([]);
-  const [yearFiltered, setYearFiltered] = useState("2023");
+  const [yearFiltered, setYearFiltered] = useState("Seleccione un año");
 
   useEffect(() => {
-    fetch("https://63a44a012a73744b0072f847.mockapi.io/api/books/Books", {
+    fetch("http://localhost:8080/book/traertodoslosbook", {
       headers: {
         Accept: "application/json",
       },
@@ -47,8 +47,11 @@ const Dashboard = () => {
       .then((response) => response.json())
       .then((bookData) => {
         const booksMapped = bookData.map((book) => ({
-          ...book,
-          dateRead: new Date(book.dateRead),
+          id: book.id,
+          title: book.bookTitle,
+          author: book.author,
+          dateRead: new Date(book.date),
+          pageCount: book.amountPages,
         }));
         setBooks(booksMapped);
       })
@@ -58,16 +61,16 @@ const Dashboard = () => {
   const addBookHandler = (book) => {
     const dateString = book.dateRead.toISOString().slice(0, 10);
 
-    fetch("https://63a44a012a73744b0072f847.mockapi.io/api/books/Books", {
+    fetch("http://localhost:8080/book/crear", {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        title: book.title,
-        author: book.author,
-        dateRead: dateString,
-        pageCount: parseInt(book.pageCount, 10),
+        bookTitle: book.title,
+        date: dateString,
+        amountPages: parseInt(book.pageCount, 10),
+        author: book.author
       }),
     })
       .then((response) => {
