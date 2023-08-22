@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import NewBook from "../NewBook/NewBook";
 import BooksFilter from "../bookFilter/BookFilter";
 import Books from "../books/Books";
+import { Button, Col, Row } from "react-bootstrap";
 const BOOKS = [
   {
     id: 1,
@@ -96,8 +97,17 @@ const Dashboard = () => {
 
   return (
     <>
-      <h1>Books Champion App!</h1>
-      <h3>¡Quiero leer libros!</h3>
+      <Row>
+        <Col>
+          <h1>Books Champion App!</h1>
+          <h3>¡Quiero leer libros!</h3>
+        </Col>
+        <Col className="d-flex justify-content-end">
+          <Button size="lg" variant="primary" className="m-3">
+            Cerrar sesión
+          </Button>
+        </Col>
+      </Row>
       <NewBook onBookAdded={addBookHandler} />
       <BooksFilter
         yearFiltered={yearFiltered}
